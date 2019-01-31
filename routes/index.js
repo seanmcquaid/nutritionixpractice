@@ -14,11 +14,22 @@ router.get('/', function(req, res, next) {
 
 router.post("/search/food", (req,res,next)=>{
   const foodName = req.body.foodName;
+  // console.log(foodName);
   // res.json(foodName);
   const searchUrl = `${apiBaseUrl}/v2/natural/nutrients/`;
-  const header = {"content-Type": "application/json", "x-app-id" :`${config.apiAppId}`, "x-app-key":`${config.apiKey}`, "x-remote-user-id":`${config.activeUser}`}
-  request.post(searchUrl, {headers: header},(error,res,body)=>{
-  console.log(body)
+  const headers = {
+    "content-Type": "application/json", 
+    "x-app-id" :`${config.apiAppId}`, 
+    "x-app-key":`${config.apiKey}`, 
+    "x-remote-user-id":`${config.activeUser}`
+  };
+
+  const options = {"query": `${foodName}`}
+// console.log(headers);
+  request.post({url: searchUrl, headers: headers, body: JSON.stringify(options)},(error,res,body)=>{
+    const parsedData = JSON.parse(body);
+    console.log(parsedData);
+    // create table to store database info 
   });
 });
 
